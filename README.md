@@ -1,41 +1,23 @@
-# code-templates README
+# code-templates
 
-This is the README for your extension "code-templates". After writing up a brief description, we recommend including the following sections.
+Extension that allow generating code based on templates
 
 ## Features
 
-Describe specific features of your extension including screenshots of your extension in action. Image paths are relative to this README file.
 
-For example if there is an image subfolder under your extension project workspace:
+## Extension Commands
 
-\!\[feature X\]\(images/feature-x.png\)
+This extension contributes the following commands:
 
-> Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
-
-## Requirements
-
-If you have any requirements or dependencies, add a section describing those and how to install and configure them.
-
-## Extension Settings
-
-Include if your extension adds any VS Code settings through the `contributes.configuration` extension point.
-
-For example:
-
-This extension contributes the following settings:
-
-* `myExtension.enable`: enable/disable this extension
-* `myExtension.thing`: set to `blah` to do something
-
-## Known Issues
-
-Calling out known issues can help limit users opening duplicate issues against your extension.
+* `extension.createFromTemplate`: runs the extension
 
 ## Release Notes
 
-Users appreciate release notes as you update your extension.
+### 0.0.1
 
-### 1.0.0
-
-Initial release of ...
+Alpha release of code-templates
+* Creating files from inline template (defined in .template file)
+* Creating files from file template 
+* Creating files from multi-file template (multiple files and directories)
+* Replacing token `__NAME__` with provided value
 

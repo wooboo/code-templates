@@ -3,7 +3,7 @@
     "displayName": "code-templates",
     "description": "file and folder templates for VS Code",
     "version": "0.0.1",
-    "publisher": "piotrzabowka",
+    "publisher": "wooboo",
     "engines": {
         "vscode": "^1.12.0"
     },
