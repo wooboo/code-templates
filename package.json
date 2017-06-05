@@ -2,8 +2,13 @@
     "name": "code-templates",
     "displayName": "code-templates",
     "description": "file and folder templates for VS Code",
-    "version": "0.0.1",
+    "version": "0.0.2",
     "publisher": "wooboo",
+    "license": "MIT",
+    "repository": {
+        "type" : "git",
+        "url" : "https://github.com/wooboo/code-templates.git"
+    },
     "engines": {
         "vscode": "^1.12.0"
     },
