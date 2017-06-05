@@ -13,7 +13,7 @@ const EDIT_TEMPLATE = 'Files: Edit File Template';
 const TEMPLATES_PREFIX = 'Template: ';
 
 function createDir(destination, source, params: TemplateParams, option: TemplateData) {
-    fs.mkdir(destination, (err) => {
+    var onDirCreated = (err) => {
         fs.readdir(source, (err, files) => {
             files.forEach((file) => {
                 var filePath = path.join(source, file);
@@ -21,21 +21,27 @@ function createDir(destination, source, params: TemplateParams, option: Template
                     let newDir = path.basename(file).replace(NAME_TOKEN, params.name)
                     createDir(path.join(destination, newDir), path.join(source, file), params, option);
                 } else {
-                    fs.readFile(filePath, 'utf8', (err, data) => {
-                        if (err) {
-                            vscode.window.showErrorMessage('Cannot find the template');
-                            return;
-                        }
-
-                        let newName = path.basename(file).replace(NAME_TOKEN, params.name);
-
-                        createFile(path.join(destination, newName), data, params, option);
-                    });
+                    let newName = path.basename(file).replace(NAME_TOKEN, params.name);
+                    let newPath = path.join(destination, newName);
+                    if(!fs.exists(newPath)){
+                        fs.readFile(filePath, 'utf8', (err, data) => {
+                            if (err) {
+                                vscode.window.showErrorMessage('Cannot find the template');
+                                return;
+                            }
+                            createFile(newPath, data, params, option);
+                        });
+                    }
                 }
 
             });
         });
-    });
+    };
+    if(fs.exists(destination)){
+        onDirCreated(null);
+    }else{
+        fs.mkdir(destination, onDirCreated);
+    }
 }
 function createFile(destination, data, params: TemplateParams, templateData: TemplateData) {
     data = data.replace(NAME_TOKEN, params.name);
@@ -94,8 +100,8 @@ function createFromTemplate(destination, source, params: TemplateParams, options
 
 export default function (...args: any[]) {
     const [info] = args;
-
-    let currentPath = info ? info._fsPath : undefined;
+    let name = null;
+    let currentPath = info && info._fsPath;
     if (!currentPath) {
         let editor = vscode.window.activeTextEditor;
         if (editor)
@@ -107,7 +113,11 @@ export default function (...args: any[]) {
         if (!currentPath)
             return;
     }
-    currentPath = fs.statSync(currentPath).isDirectory() ? currentPath : path.dirname(currentPath);
+
+    if(fs.lstatSync(currentPath).isFile()){
+        name = path.basename(currentPath, path.extname(currentPath));
+        currentPath = path.dirname(currentPath);
+    }
 
     tm.getTemplates().then(templatesInfo => {
         let templateMenuOptions = constructTemplatesOptions(templatesInfo);
@@ -119,7 +129,8 @@ export default function (...args: any[]) {
             if (!option)
                 return;
             let input = vscode.window.showInputBox({
-                prompt: 'Enter new name'
+                prompt: 'Enter new name', 
+                value: name
             });
             input.then((newName) => {
                 const params = { name: newName };
@@ -138,9 +149,6 @@ export default function (...args: any[]) {
                             }
                         });
                     });
-
-
-
                 }
             });
         });

@@ -11,35 +11,35 @@
         "Other"
     ],
     "activationEvents": [
-        "onCommand:extension.createFromTemplate"
+        "onCommand:code-templates.createFromTemplate"
     ],
     "main": "./out/src/extension",
     "contributes": {
         "commands": [
             {
-                "command": "extension.createFromTemplate",
+                "command": "code-templates.createFromTemplate",
                 "title": "Create from template"
             }
         ],
         "menus": {
             "editor/context": [
                 {
-                    "command": "extension.createFromTemplate",
+                    "command": "code-templates.createFromTemplate",
                     "group": "templates"
                 }
             ],
             "explorer/context": [
                 {
-                    "command": "extension.createFromTemplate",
+                    "command": "code-templates.createFromTemplate",
                     "group": "templates"
                 }
             ]
         },
         "keybindings": [
             {
-                "command": "extension.createFromTemplate",
-                "key": "ctrl+n",
-                "mac": "cmd+n"
+                "command": "code-templates.createFromTemplate",
+                "key": "ctrl+shift+n",
+                "mac": "cmd+shift+n"
             }
         ]
     },
